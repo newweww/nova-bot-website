@@ -3,6 +3,8 @@ import './style.css';
 
 const Question = () => {
   const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const fetchData = () => {
     fetch('https://nova-api-ih4v.onrender.com/api/data')
@@ -21,30 +23,66 @@ const Question = () => {
     };
   }, []);
 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = pageNumber => setCurrentPage(pageNumber);
+
+  const handleDelete = (_id) => {
+    fetch(`https://nova-api-ih4v.onrender.com/api/data/${_id}`, {
+      method: 'DELETE',
+    })
+    .then(response => {
+      if (response.ok) {
+        fetchData();
+      } else {
+        throw new Error('Failed to delete the item');
+      }
+    })
+    .catch(error => console.log(error));
+  };
+
   return (
     <div className='dark-mode screen'>
-      <div>
+      <div style={{ height: '90vh' }}>
         <div>
-          <table className="table table-dark">
+          <h1>Questions</h1>
+        </div>
+        <div>
+          <table className="table table-dark table-striped table-hover" style={{ width: '120vh' }}>
             <thead>
               <tr>
                 <th scope="col">No.</th>
                 <th scope="col">Username</th>
                 <th scope="col">Question</th>
                 <th scope="col">Time</th>
+                <th scope="col">Actions</th>
               </tr>
             </thead>
-            <tbody>
-              {data.map((item, index) => (
+            <tbody className='table-group-divider'>
+              {currentItems.map((item, index) => (
                 <tr key={index}>
-                  <th scope="row">{index + 1}</th>
+                  <th scope="row">{indexOfFirstItem + index + 1}</th> 
                   <td>{item.userName}</td>
                   <td>{item.question}</td>
                   <td>{item.time}</td>
+                  <td>
+                    <button onClick={() => handleDelete(item._id)} className="btn btn-sm btn-danger">Delete</button>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          <nav aria-label="Page navigation">
+            <ul className="pagination">
+              {Array.from({ length: Math.ceil(data.length / itemsPerPage) }, (_, i) => (
+                <li key={i} className={`page-item ${i + 1 === currentPage ? 'active' : ''}`}>
+                  <button onClick={() => paginate(i + 1)} className="page-link">{i + 1}</button>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
       </div>
     </div>
