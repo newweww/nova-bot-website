@@ -4,6 +4,8 @@ import './style.css';
 const Question = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [checkedItems, setCheckedItems] = useState({});
+
   const itemsPerPage = 10;
 
   const fetchData = () => {
@@ -27,7 +29,10 @@ const Question = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
-  const paginate = pageNumber => setCurrentPage(pageNumber);
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    setCheckedItems({}); 
+  };
 
   const handleDelete = (_id) => {
     fetch(`https://nova-api-ih4v.onrender.com/api/data/${_id}`, {
@@ -43,6 +48,10 @@ const Question = () => {
     .catch(error => console.log(error));
   };
 
+  const toggleCheckbox = (index) => {
+    setCheckedItems({ ...checkedItems, [index]: !checkedItems[index] });
+  };
+
   return (
     <div className='dark-mode screen'>
       <div style={{ height: '90vh' }}>
@@ -53,6 +62,7 @@ const Question = () => {
           <table className="table table-dark table-striped table-hover" style={{ width: '120vh' }}>
             <thead>
               <tr>
+                <th scope="col">Select</th>
                 <th scope="col">No.</th>
                 <th scope="col">Username</th>
                 <th scope="col">Question</th>
@@ -62,7 +72,15 @@ const Question = () => {
             </thead>
             <tbody className='table-group-divider'>
               {currentItems.map((item, index) => (
-                <tr key={index}>
+                <tr key={index} style={{ opacity: checkedItems[index] ? 0.5 : 1 }}>
+                  <td>
+                    <input
+                      type="checkbox"
+                      className="custom-checkbox"
+                      checked={checkedItems[index]}
+                      onChange={() => toggleCheckbox(index)}
+                    />
+                  </td>
                   <th scope="row">{indexOfFirstItem + index + 1}</th> 
                   <td>{item.userName}</td>
                   <td>{item.question}</td>
