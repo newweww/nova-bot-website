@@ -5,7 +5,7 @@ import Home from './page/Home';
 import Nav from './component/Nav';
 import Question from './page/Question';
 import Layout from './component/Layout';
-import Hello from "./page/Hello";
+import History from "./page/History";
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/page" element={<Layout />}>
             <Route path="/page/question" element={<Question />} />
-            <Route path="/page/hello" element={<Hello />} />
+            <Route path="/page/history" element={<History />} />
           </Route>
         </Routes>
       </Router>

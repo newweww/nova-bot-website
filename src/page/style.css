@@ -8,7 +8,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 90vh;
+    min-height: 90vh;
+    height: auto;
 }
 .welcome-screen {
     display: flex;
@@ -27,7 +28,7 @@
 .custom-checkbox {
     width: 20px;
     height: 20px;
-    border: 2px solid #4CAF50; 
+    border: 2px solid #4CAF50;
     border-radius: 3px; 
     margin-top: 6px;
   }

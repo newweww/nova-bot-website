@@ -24,9 +24,9 @@ const Nav_bar = () => {
                     </div>
                     <div>
                         <Nav className="ms-auto my-2 my-lg-0 nav-hover" style={{ borderRadius: '10px' }}>
-                            <Link className="navBtn ms-auto my-1 d-flex align-items-center nav-link" to="/page/hello" style={{ textDecoration: 'none', color: 'inherit', height: '100%', paddingRight: '20px' }}>
+                            <Link className="navBtn ms-auto my-1 d-flex align-items-center nav-link" to="/page/history" style={{ textDecoration: 'none', color: 'inherit', height: '100%', paddingRight: '20px' }}>
                                 <i className='fs-4 bi-house ms-2'></i>
-                                <span className='ms-2 d-none d-sm-inline' style={{ fontSize: '20px' }}>Hello</span>
+                                <span className='ms-2 d-none d-sm-inline' style={{ fontSize: '20px' }}>History</span>
                             </Link>
                         </Nav>
                     </div>
